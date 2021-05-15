@@ -82,7 +82,7 @@ client.on("message", msg => {
                 yaz("I don't know what you mean :grimacing:")
                 break
             } else process.exit(1)
-
+            
         case "help":
             const aide = new Discord.MessageEmbed()
             .setColor("00c18e")
