@@ -154,7 +154,15 @@ client.on("message", msg => {
                 yaz("An error occurred, revise your request or maybe you wrote something ahead of your time :-1:")
                 break
             }*/
-
+        
+        case "import":
+            if (args[1] == "antigravity"){
+                yaz("https://xkcd.com/353/")
+            } else {
+                yaz("No import support in JS, sorry :/")
+            }
+            break
+            
         case "meurs":
             if (msg.author.id != config.ownerid){
                 yaz("I don't know what you mean :grimacing:")
@@ -164,7 +172,7 @@ client.on("message", msg => {
         case "help":
             const aide = new Discord.MessageEmbed()
             .setColor("00c18e")
-            .setTitle("All of the commands so far")
+            .setTitle("All of the commands so far (there might be a couple of secret ones tho :face_with_monocle:)")
             .setDescription("Like and subscribe to get more of them\nBot prefix is '.'")
             .addField("hello", "Greet this cute bot :wave:", false)
             .addField("ping", "Guess how the bot will respond :ping_pong:", false)
