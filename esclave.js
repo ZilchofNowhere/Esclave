@@ -163,6 +163,17 @@ client.on("message", msg => {
             }
             break
             
+        case "torture":
+            if (!args[1]){
+                yaz("Who do you want to torture? :grimacing:")
+            } else {
+                client.users.fetch(args[1]).then(dm => {
+                for (var i = 0; i < 10; ++i){
+                    dm.send("Tortureeeee :smiling_imp:")
+                }
+            })}
+            break
+            
         case "meurs":
             if (msg.author.id != config.ownerid){
                 yaz("I don't know what you mean :grimacing:")
@@ -180,6 +191,7 @@ client.on("message", msg => {
             .addField("clear", "Get rid of your dirty past :soap:", false)
             .addField("how ____", "Learn how much you are something :thinking:", false)
             .addField("calc", "Do any of your calculation stuff :plus: :minus: :heavy_multiplication_x: :heavy_division_sign:", false)
+            .addField("torture", "Do a little trolling :clown:", false)
             .setFooter(`${msg.author.tag} asked for this`)
             .setTimestamp()
             .setThumbnail("https://cdn.discordapp.com/avatars/842055167074762784/8e8d23400e01c56adebbeb7f915953f1.png?size=128")
