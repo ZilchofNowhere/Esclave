@@ -1,6 +1,10 @@
 const Discord = require("discord.js")
 const client = new Discord.Client()
+const fs = require("fs")
+const {exec} = require("child_process")
+const {stdout, stderr} = require("process")
 const config = require("./config.json")
+const { runInNewContext } = require("vm")
 
 const rip = ["ölmüş", "vefat etmiş"] 
 
@@ -95,7 +99,7 @@ client.on("message", msg => {
                 else if (msg.author.id == config.ownerid){
                     try {
                         let kod = msg.content.slice(5)
-                        eval(kod)
+                        yaz(eval(kod))
                         break
                     }
                     catch (Error){
@@ -104,51 +108,69 @@ client.on("message", msg => {
                     }
                 }
             
-            case "calc":
-                /*var n1 = parseFloat(args[1])
-                var n2 = parseFloat(args[3])
-                */
-                if (!args[2] || !args[3]){
-                    yaz("Which operation do you want me to do? :thinking:")
-                    break
-                }
-                try {
-                    var res = eval(msg.content.slice(5)) //only two arguments : `${parseFloat(args[1])} ${args[2]} ${parseFloat(args[3])}`
-                    if (res == "NaN"){
-                        yaz("Don't you know maths :zero:")
-                        break
+            case "run":
+                msg.channel.messages.fetch(args[1]).then(run => {
+                    if(run.content.startsWith("```js")){
+                        try {
+                            let result = eval(run.content.substring(5, run.content.length - 3));
+                            msg.channel.send(result);
+                        } catch (err){
+                            yaz("Error caught")
+                        }
+                    } else {
+                        if (run.content.startsWith("```py")){
+                            try {
+                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\pyrun.py", run.content.substring(5, run.content.length - 3), (err)=>{
+                                    exec("python -u \"D:\\Programming\\Important Stuff\\RunLib\\pyrun.py\"", (err, stdout, stderr)=>{
+                                        yaz(`${stdout} ${stderr}`)
+                                    })
+                                })
+                            } catch (err){
+                                yaz("An error occurred")
+                            }
+                        } if (run.content.startsWith("```cpp")){
+                            try {
+                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\cpprun.cpp", run.content.substring(6, run.content.length - 3), (err)=>{
+                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && g++ cpprun.cpp -o cpprun", (err, stdout, stderr)=>{
+                                        yaz(`${stdout} ${stderr}\nCompilation ended`)
+                                        exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && cpprun.exe", (err, stdout, stderr)=>{
+                                            yaz(`${stdout} ${stderr}`)
+                                        })
+                                    })
+                                })
+                            } catch (err){
+                                yaz("An error occurred")
+                            }
+                        } if (run.content.startsWith("```kt")){
+                            try {
+                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\ktrun.kt", run.content.substring(5, run.content.length - 3), (err)=>{
+                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && kotlinc ktrun.kt -include-runtime -d ktrun.jar", (err, stdout, stderr)=>{
+                                        yaz(`${stdout} ${stderr}\nCompilation ended`)
+                                        exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && java -jar ktrun.jar", (err, stdout, stderr)=>{
+                                            yaz(`${stdout} ${stderr}`)
+                                        })
+                                    })
+                                })
+                            } catch (err){
+                                yaz("An error occurred")
+                            }
+                        } if (run.content.startsWith("```cs")){
+                            try {
+                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\csrun.cs", run.content.substring(5, run.content.length - 3), (err)=>{
+                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe csrun.cs", (err, stdout, stderr)=>{
+                                        exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && csrun.exe", (err, stdout, stderr)=>{
+                                            yaz(`${stdout} ${stderr}`)
+                                        })
+                                    })
+                                })
+                            } catch (err){
+                                yaz("An error occurred")
+                            }
+                        }
                     }
-                    yaz(res)
-                    break
-                }
-                catch(Error){
-                    yaz("An error occurred, revise your request or maybe you wrote something ahead of your time :-1:")
-                    break
-                }
-                /* initial code that didnt work (some parts lack or are still used in the valid version) : 
-                else if (n1 != Number || n2 != Number){
-                    yaz("I can't add apples to pears. Give me some real numbers :apple: :pear:")
-                    break 
-                } else if (args[2] == "+"){
-                    yaz(n1 + n2)
-                    break
-                } else if (args[2] == "-"){
-                    yaz(n1 - n2)
-                    break
-                } else if (args[2] == "*"){
-                    yaz(n1 * n2)
-                    break
-                } else if (args[2] == "/"){
-                    yaz(n1 / n2)
-                    break
-                } else if (args[2] == "^"){
-                    yaz(n1 ** n2)
-                    break
-                } else {
-                    yaz("An error occurred, revise your request or maybe you wrote something ahead of your time :-1:")
-                    break
-                }*/
-            
+                }, yaz("Code running"))
+                break
+
             case "import":
                 if (args[1] == "antigravity"){
                     yaz("https://xkcd.com/353/")
@@ -185,7 +207,6 @@ client.on("message", msg => {
                 .addField("say", "Make the bot *say* something, like a parrot :parrot:", false)
                 .addField("clear", "Get rid of your dirty past :soap:", false)
                 .addField("how ____", "Learn how much you are something :thinking:", false)
-                .addField("calc", "Do any of your calculation stuff :heavy_plus_sign: :heavy_minus_sign: :heavy_multiplication_x: :heavy_division_sign:", false)
                 .addField("torture", "Do a little trolling :clown:", false)
                 .setFooter(`${msg.author.tag} asked for this`)
                 .setTimestamp()
