@@ -4,7 +4,6 @@ const fs = require("fs")
 const {exec} = require("child_process")
 const {stdout, stderr} = require("process")
 const config = require("./config.json")
-const { runInNewContext } = require("vm")
 
 const rip = ["ölmüş", "vefat etmiş"] 
 
