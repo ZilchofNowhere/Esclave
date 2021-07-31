@@ -99,7 +99,12 @@ client.on("message", msg => {
                 else if (msg.author.id == config.ownerid){
                     try {
                         let kod = msg.content.slice(5)
-                        yaz(eval(kod))
+                        var res = toString(eval(kod))
+                        if (res != "" || res != "[object Undefined]"){
+                            yaz(res)
+                        } else {
+                            yaz("No visible output :ghost:")
+                        }
                         break
                     }
                     catch (Error){
@@ -128,12 +133,12 @@ client.on("message", msg => {
                             } catch (err){
                                 yaz("An error occurred")
                             }
-                        } if (run.content.startsWith("```cpp")){
+                        } else if (run.content.startsWith("```cpp")){
                             try {
                                 fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\cpprun.cpp", run.content.substring(6, run.content.length - 3), (err)=>{
                                     exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && g++ cpprun.cpp -o cpprun", (err, stdout, stderr)=>{
                                         yaz(`${stdout} ${stderr}\nCompilation ended`)
-                                        exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && cpprun.exe", (err, stdout, stderr)=>{
+                                        exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && .\\cpprun.exe", (err, stdout, stderr)=>{
                                             yaz(`${stdout} ${stderr}`)
                                         })
                                     })
@@ -141,7 +146,7 @@ client.on("message", msg => {
                             } catch (err){
                                 yaz("An error occurred")
                             }
-                        } if (run.content.startsWith("```kt")){
+                        } else if (run.content.startsWith("```kt")){
                             try {
                                 fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\ktrun.kt", run.content.substring(5, run.content.length - 3), (err)=>{
                                     exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && kotlinc ktrun.kt -include-runtime -d ktrun.jar", (err, stdout, stderr)=>{
@@ -154,11 +159,22 @@ client.on("message", msg => {
                             } catch (err){
                                 yaz("An error occurred")
                             }
-                        } if (run.content.startsWith("```cs")){
+                        } else if (run.content.startsWith("```cs")){
                             try {
-                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\csrun.cs", run.content.substring(5, run.content.length - 3), (err)=>{
-                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe csrun.cs", (err, stdout, stderr)=>{
-                                        exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && csrun.exe", (err, stdout, stderr)=>{
+                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\CSRun\\Program.cs", run.content.substring(5, run.content.length - 3), (err)=>{
+                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\\CSRun\" && dotnet run", (err, stdout, stderr)=>{
+                                        yaz(`${stdout} ${stderr}`)
+                                    })
+                                })
+                            } catch (err){
+                                yaz("An error occurred")
+                            }
+                        } else if (run.content.startsWith("```c")){
+                            try {
+                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\crun.c", run.content.substring(4, run.content.length - 3), (err)=>{
+                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && g++ crun.c -o crun", (err, stdout, stderr)=>{
+                                        yaz(`${stdout} ${stderr}\nCompilation ended`)
+                                        exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && .\\crun.exe", (err, stdout, stderr)=>{
                                             yaz(`${stdout} ${stderr}`)
                                         })
                                     })
@@ -166,6 +182,8 @@ client.on("message", msg => {
                             } catch (err){
                                 yaz("An error occurred")
                             }
+                        } else {
+                            yaz("Your language is not supported yet :/")
                         }
                     }
                 }, yaz("Code running"))
@@ -208,6 +226,7 @@ client.on("message", msg => {
                 .addField("clear", "Get rid of your dirty past :soap:", false)
                 .addField("how ____", "Learn how much you are something :thinking:", false)
                 .addField("torture", "Do a little trolling :clown:", false)
+                .addField("run", "Do some real hacking and conquer the world :keyboard:\n**Supported langs:** C#, C, C++, JavaScript, Kotlin, Python (more to come soon)", false)
                 .setFooter(`${msg.author.tag} asked for this`)
                 .setTimestamp()
                 .setThumbnail("https://cdn.discordapp.com/avatars/842055167074762784/8e8d23400e01c56adebbeb7f915953f1.png?size=128")
