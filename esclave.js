@@ -181,6 +181,16 @@ client.on("message", msg => {
                             } catch (err){
                                 yaz("An error occurred")
                             }
+                        } else if (run.content.startsWith("```ts")){
+                            try {
+                                fs.writeFile("./Important Stuff/RunLib/tsrun.ts", run.content.substring(5, run.content.length - 3), (err)=>{
+                                    exec("ts-node \"D:\\Programming\\Important Stuff\\RunLib\\tsrun.ts\"", (err, stdout, stderr)=>{
+                                        yaz(`${stdout} ${stderr}`)
+                                    })
+                                })
+                            } catch (err){
+                                yaz("An error occurred")
+                            } 
                         } else {
                             yaz("Your language is not supported yet :/")
                         }
@@ -225,7 +235,7 @@ client.on("message", msg => {
                 .addField("clear", "Get rid of your dirty past :soap:", false)
                 .addField("how ____", "Learn how much you are something :thinking:", false)
                 .addField("torture", "Do a little trolling :clown:", false)
-                .addField("run", "Do some real hacking and conquer the world :keyboard:\n**Supported langs:** C#, C, C++, JavaScript, Kotlin, Python (more to come soon)", false)
+                .addField("run", "Do some real hacking and conquer the world :keyboard:\n**Supported langs:** C#, C, C++, JavaScript, Kotlin, Python, TypeScript (more to come soon)", false)
                 .setFooter(`${msg.author.tag} asked for this`)
                 .setTimestamp()
                 .setThumbnail("https://cdn.discordapp.com/avatars/842055167074762784/8e8d23400e01c56adebbeb7f915953f1.png?size=128")
