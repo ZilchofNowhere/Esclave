@@ -1,8 +1,8 @@
 const Discord = require("discord.js")
 const client = new Discord.Client()
 const fs = require("fs")
-const {exec} = require("child_process")
-const {stdout, stderr} = require("process")
+const { exec } = require("child_process")
+const { stdout, stderr } = require("process")
 const config = require("./config.json")
 
 const rip = ["ölmüş", "vefat etmiş"] 
@@ -116,10 +116,13 @@ client.on("message", msg => {
                 msg.channel.messages.fetch(args[1]).then(run => {
                     if(run.content.startsWith("```js")){
                         try {
-                            let result = eval(run.content.substring(5, run.content.length - 3));
-                            msg.channel.send(result);
+                            fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\jsrun.js", run.content.substring(5, run.content.length - 3), (err)=>{
+                                exec("node \"D:\\Programming\\Important Stuff\\RunLib\\jsrun.js\"", (err, stdout, stderr)=>{
+                                    yaz(`\`\`\`${stdout} ${stderr}\`\`\``)
+                                })
+                            });
                         } catch (err){
-                            yaz("Error caught")
+                            yaz("An error occurred")
                         }
                     } else {
                         if (run.content.startsWith("```py")){
@@ -135,7 +138,7 @@ client.on("message", msg => {
                         } else if (run.content.startsWith("```cpp")){
                             try {
                                 fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\cpprun.cpp", run.content.substring(6, run.content.length - 3), (err)=>{
-                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && g++ cpprun.cpp -o cpprun", (err, stdout, stderr)=>{
+                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && g++ cpprun.cpp -o cpprun.exe", (err, stdout, stderr)=>{
                                         yaz(`${stdout} ${stderr}\nCompilation ended`)
                                         exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && .\\cpprun.exe", (err, stdout, stderr)=>{
                                             yaz(`${stdout} ${stderr}`)
@@ -158,6 +161,16 @@ client.on("message", msg => {
                             } catch (err){
                                 yaz("An error occurred")
                             }
+                        } else if (run.content.startsWith("```ts")){
+                            try {
+                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\tsrun.ts", run.content.substring(5, run.content.length - 3), (err)=>{
+                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && ts-node tsrun.ts", (err, stdout, stderr)=>{
+                                        yaz(`${stdout} ${stderr}`)
+                                    })
+                                })
+                            } catch (err){
+                                yaz("An error occurred")
+                            }
                         } else if (run.content.startsWith("```cs")){
                             try {
                                 fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\CSRun\\Program.cs", run.content.substring(5, run.content.length - 3), (err)=>{
@@ -171,7 +184,7 @@ client.on("message", msg => {
                         } else if (run.content.startsWith("```c")){
                             try {
                                 fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\crun.c", run.content.substring(4, run.content.length - 3), (err)=>{
-                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && g++ crun.c -o crun", (err, stdout, stderr)=>{
+                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && gcc crun.c -o crun.exe", (err, stdout, stderr)=>{
                                         yaz(`${stdout} ${stderr}\nCompilation ended`)
                                         exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && .\\crun.exe", (err, stdout, stderr)=>{
                                             yaz(`${stdout} ${stderr}`)
@@ -181,16 +194,6 @@ client.on("message", msg => {
                             } catch (err){
                                 yaz("An error occurred")
                             }
-                        } else if (run.content.startsWith("```ts")){
-                            try {
-                                fs.writeFile("./Important Stuff/RunLib/tsrun.ts", run.content.substring(5, run.content.length - 3), (err)=>{
-                                    exec("ts-node \"D:\\Programming\\Important Stuff\\RunLib\\tsrun.ts\"", (err, stdout, stderr)=>{
-                                        yaz(`${stdout} ${stderr}`)
-                                    })
-                                })
-                            } catch (err){
-                                yaz("An error occurred")
-                            } 
                         } else {
                             yaz("Your language is not supported yet :/")
                         }
@@ -202,7 +205,7 @@ client.on("message", msg => {
                 if (args[1] == "antigravity"){
                     yaz("https://xkcd.com/353/")
                 } else {
-                    yaz("No import support in JS, sorry :/")
+                    yaz("You can't import creative stuff like this in JS, sorry :/")
                 }
                 break
 
@@ -218,11 +221,17 @@ client.on("message", msg => {
                 })}
                 break
 
+            case "setnick":
+                msg.guild.members.fetch(args[1]).then(id => {
+                    id.setNickname(msg.content.slice(28).trim()).catch("An error occurred")
+                })
+                break
+
             case "meurs":
                 if (msg.author.id != config.ownerid){
                     yaz("I don't know what you mean :grimacing:")
                     break
-                } else process.exit(1)
+                } else process.exit(0)
 
             case "help":
                 const aide = new Discord.MessageEmbed()
@@ -235,7 +244,8 @@ client.on("message", msg => {
                 .addField("clear", "Get rid of your dirty past :soap:", false)
                 .addField("how ____", "Learn how much you are something :thinking:", false)
                 .addField("torture", "Do a little trolling :clown:", false)
-                .addField("run", "Do some real hacking and conquer the world :keyboard:\n**Supported langs:** C#, C, C++, JavaScript, Kotlin, Python, TypeScript (more to come soon)", false)
+                .addField("run", "Do some real hacking and conquer the world :keyboard:\n**Supported langs:** C#, C, C++, JavaScript, Kotlin, Python (more to come soon)", false)
+                .addField("setnick", "Change the nick of your friends", false)
                 .setFooter(`${msg.author.tag} asked for this`)
                 .setTimestamp()
                 .setThumbnail("https://cdn.discordapp.com/avatars/842055167074762784/8e8d23400e01c56adebbeb7f915953f1.png?size=128")
