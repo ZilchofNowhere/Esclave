@@ -244,7 +244,7 @@ client.on("message", msg => {
                 .addField("clear", "Get rid of your dirty past :soap:", false)
                 .addField("how ____", "Learn how much you are something :thinking:", false)
                 .addField("torture", "Do a little trolling :clown:", false)
-                .addField("run", "Do some real hacking and conquer the world :keyboard:\n**Supported langs:** C#, C, C++, JavaScript, Kotlin, Python (more to come soon)", false)
+                .addField("run", "Do some real hacking and conquer the world :keyboard:\n**Supported langs:** C#, C, C++, JavaScript, Kotlin, Python, TypeScript (more to come soon)", false)
                 .addField("setnick", "Change the nick of your friends", false)
                 .setFooter(`${msg.author.tag} asked for this`)
                 .setTimestamp()
