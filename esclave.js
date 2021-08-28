@@ -98,8 +98,8 @@ client.on("message", msg => {
                 else if (msg.author.id == config.ownerid){
                     try {
                         let kod = msg.content.slice(5)
-                        var res = toString(eval(kod))
-                        if (res != "" || res != "[object Undefined]"){
+                        var res = eval(kod)
+                        if (toString(res) != "" || toString(res) != "[object Undefined]"){
                             yaz(res)
                         } else {
                             yaz("No visible output :ghost:")
