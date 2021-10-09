@@ -29,34 +29,8 @@ client.on("message", msg => {
         yaz("RIP :pensive:")
     }
 
-    if (msg.author.id in config.blacklist){
-        yaz("You are in the blacklist, you can't use commands :scream:")
-        return //doesnt work
-    }
     if (msg.content.startsWith(config.prefix)){
         switch(args[0]){
-            case "blacklist":
-                if (msg.author.id != config.ownerid){
-                    yaz("Who gave you the permission, huh?")
-                    break
-                }
-                config.blacklist.push(args[1])
-                yaz(`The user with the ID of ${args[1]} has been added to the blacklist`)
-                break
-
-            case "whitelist":
-                if (msg.author.id != config.ownerid){
-                    yaz("Who gave you the permission, huh?")
-                    break
-                }
-                if (config.blacklist == []){
-                    yaz("The blacklist is already empty")
-                    break
-                } else {
-                config.blacklist.pop()
-                break
-                }
-
             case "ping":
                 yaz("Pong!")
                 break
