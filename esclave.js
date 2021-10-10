@@ -90,8 +90,8 @@ client.on("message", msg => {
                 msg.channel.messages.fetch(args[1]).then(run => {
                     if(run.content.startsWith("```js")){
                         try {
-                            fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\jsrun.js", run.content.substring(5, run.content.length - 3), (err)=>{
-                                exec("node \"D:\\Programming\\Important Stuff\\RunLib\\jsrun.js\"", (err, stdout, stderr)=>{
+                            fs.writeFile("../RunLib/jsrun.js", run.content.substring(5, run.content.length - 3), (err)=>{
+                                exec("node ../RunLib/jsrun.js", (err, stdout, stderr)=>{
                                     yaz(`\`\`\`${stdout} ${stderr}\`\`\``)
                                 })
                             });
@@ -101,8 +101,8 @@ client.on("message", msg => {
                     } else {
                         if (run.content.startsWith("```py")){
                             try {
-                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\pyrun.py", run.content.substring(5, run.content.length - 3), (err)=>{
-                                    exec("python -u \"D:\\Programming\\Important Stuff\\RunLib\\pyrun.py\"", (err, stdout, stderr)=>{
+                                fs.writeFile("../RunLib/pyrun.py", run.content.substring(5, run.content.length - 3), (err)=>{
+                                    exec("python -u ../RunLib/pyrun.py", (err, stdout, stderr)=>{
                                         yaz(`${stdout} ${stderr}`)
                                     })
                                 })
@@ -111,10 +111,10 @@ client.on("message", msg => {
                             }
                         } else if (run.content.startsWith("```cpp")){
                             try {
-                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\cpprun.cpp", run.content.substring(6, run.content.length - 3), (err)=>{
-                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && g++ cpprun.cpp -o cpprun.exe", (err, stdout, stderr)=>{
+                                fs.writeFile("../RunLib/cpprun.cpp", run.content.substring(6, run.content.length - 3), (err)=>{
+                                    exec("cd ../RunLib/ && clang++ cpprun.cpp -o cpprun.exe", (err, stdout, stderr)=>{
                                         yaz(`${stdout} ${stderr}\nCompilation ended`)
-                                        exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && .\\cpprun.exe", (err, stdout, stderr)=>{
+                                        exec("cd ../RunLib/ && .\\cpprun.exe", (err, stdout, stderr)=>{
                                             yaz(`${stdout} ${stderr}`)
                                         })
                                     })
@@ -124,10 +124,10 @@ client.on("message", msg => {
                             }
                         } else if (run.content.startsWith("```kt")){
                             try {
-                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\ktrun.kt", run.content.substring(5, run.content.length - 3), (err)=>{
-                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && kotlinc ktrun.kt -include-runtime -d ktrun.jar", (err, stdout, stderr)=>{
+                                fs.writeFile("../RunLib/ktrun.kt", run.content.substring(5, run.content.length - 3), (err)=>{
+                                    exec("cd ../RunLib/ && kotlinc ktrun.kt -include-runtime -d ktrun.jar", (err, stdout, stderr)=>{
                                         yaz(`${stdout} ${stderr}\nCompilation ended`)
-                                        exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && java -jar ktrun.jar", (err, stdout, stderr)=>{
+                                        exec("cd ../RunLib/ && java -jar ktrun.jar", (err, stdout, stderr)=>{
                                             yaz(`${stdout} ${stderr}`)
                                         })
                                     })
@@ -137,8 +137,8 @@ client.on("message", msg => {
                             }
                         } else if (run.content.startsWith("```ts")){
                             try {
-                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\tsrun.ts", run.content.substring(5, run.content.length - 3), (err)=>{
-                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && ts-node tsrun.ts", (err, stdout, stderr)=>{
+                                fs.writeFile("../RunLib/tsrun.ts", run.content.substring(5, run.content.length - 3), (err)=>{
+                                    exec("cd ../RunLib/ && ts-node tsrun.ts", (err, stdout, stderr)=>{
                                         yaz(`${stdout} ${stderr}`)
                                     })
                                 })
@@ -147,8 +147,8 @@ client.on("message", msg => {
                             }
                         } else if (run.content.startsWith("```cs")){
                             try {
-                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\CSRun\\Program.cs", run.content.substring(5, run.content.length - 3), (err)=>{
-                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\\CSRun\" && dotnet run", (err, stdout, stderr)=>{
+                                fs.writeFile("../RunLib/CSRun/Program.cs", run.content.substring(5, run.content.length - 3), (err)=>{
+                                    exec("cd ../RunLib/CSRun && dotnet run", (err, stdout, stderr)=>{
                                         yaz(`${stdout} ${stderr}`)
                                     })
                                 })
@@ -157,10 +157,10 @@ client.on("message", msg => {
                             }
                         } else if (run.content.startsWith("```c")){
                             try {
-                                fs.writeFile("D:\\Programming\\Important Stuff\\RunLib\\crun.c", run.content.substring(4, run.content.length - 3), (err)=>{
-                                    exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && gcc crun.c -o crun.exe", (err, stdout, stderr)=>{
+                                fs.writeFile("../RunLib/crun.c", run.content.substring(4, run.content.length - 3), (err)=>{
+                                    exec("cd ../RunLib/ && clang crun.c -o crun.exe", (err, stdout, stderr)=>{
                                         yaz(`${stdout} ${stderr}\nCompilation ended`)
-                                        exec("cd \"D:\\Programming\\Important Stuff\\RunLib\" && .\\crun.exe", (err, stdout, stderr)=>{
+                                        exec("cd ../RunLib/ && .\\crun.exe", (err, stdout, stderr)=>{
                                             yaz(`${stdout} ${stderr}`)
                                         })
                                     })
