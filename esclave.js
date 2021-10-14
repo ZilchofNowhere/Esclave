@@ -22,8 +22,8 @@ client.on("message", msg => {
         return
     }
     const args = msg.content.slice(config.prefix.length).trim().split(/ +/)
-    const yaz = function(x){
-        msg.channel.send(x)}
+    const yaz = function(text){
+        msg.channel.send(text)}
 
     if (rip.some(word => msg.content.includes(word))){
         yaz("RIP :pensive:")
@@ -168,6 +168,23 @@ client.on("message", msg => {
                             } catch (err){
                                 yaz("An error occurred")
                             }
+                        } else if (run.content.startsWith("```java")){
+                            if (!(run.content.includes("Javarun"))){
+                                yaz("Choose \"Javarun\" as your class name")
+                            } else {
+                                try {
+                                    fs.writeFile("../RunLib/Javarun.java", run.content.substring(7, run.content.length - 3), (err) => {
+                                        exec("cd ../RunLib && javac Javarun.java", (err, stdout, stderr) => {
+                                            yaz(`${stdout} ${stderr}\nCompilation ended`)
+                                            exec("cd ../RunLib && java Javarun", (err, stdout, stderr) => {
+                                                yaz(`${stdout} ${stderr}`)
+                                            })
+                                        })
+                                    })
+                                } catch (err){
+                                    yaz("An error occurred")
+                                }
+                            }
                         } else {
                             yaz("Your language is not supported yet :/")
                         }
@@ -218,7 +235,7 @@ client.on("message", msg => {
                 .addField("clear", "Get rid of your dirty past :soap:", false)
                 .addField("how ____", "Learn how much you are something :thinking:", false)
                 .addField("torture", "Do a little trolling :clown:", false)
-                .addField("run", "Do some real hacking and conquer the world :keyboard:\n**Supported langs:** C#, C, C++, JavaScript, Kotlin, Python, TypeScript (more to come soon)", false)
+                .addField("run", "Do some real hacking and conquer the world :keyboard:\n**Supported langs:** C, C#, C++, Java, JavaScript, Kotlin, Python, TypeScript (more to come soon)", false)
                 .addField("setnick", "Change the nick of your friends", false)
                 .setFooter(`${msg.author.tag} asked for this`)
                 .setTimestamp()
