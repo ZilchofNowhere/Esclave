@@ -3,9 +3,12 @@ const client = new Discord.Client()
 const fs = require("fs")
 const { exec } = require("child_process")
 const { stdout, stderr } = require("process")
-const config = require("./config.json")
+const config = require("./.env")
+const ytdl = require("ytdl-core")
+const ytSearch = require("yt-search")
 
 const rip = ["ölmüş", "vefat etmiş"] 
+const queue = new Map()
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}`)
@@ -241,12 +244,12 @@ client.on("message", msg => {
                 .setTimestamp()
                 .setThumbnail("https://cdn.discordapp.com/avatars/842055167074762784/8e8d23400e01c56adebbeb7f915953f1.png?size=128")
                 return msg.channel.send(aide)
+            
+            // TODO music
 
             default:
                 break
         }
-    } else {
-        return
     }
 })
 
