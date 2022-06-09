@@ -3,7 +3,7 @@ const client = new Discord.Client()
 const fs = require("fs")
 const { exec } = require("child_process")
 const { stdout, stderr } = require("process")
-const config = require("./.env")
+const config = require("./config.json")
 const ytdl = require("ytdl-core")
 const ytSearch = require("yt-search")
 
