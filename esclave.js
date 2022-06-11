@@ -9,6 +9,7 @@ const ytSearch = require("yt-search")
 
 const rip = ["ölmüş", "vefat etmiş"] 
 const queue = new Map()
+const javaPackage = "Bots.RunLib"
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}`)
@@ -176,7 +177,7 @@ client.on("message", msg => {
                                 yaz("Choose \"Javarun\" as your class name")
                             } else {
                                 try {
-                                    fs.writeFile("../RunLib/Javarun.java", run.content.substring(7, run.content.length - 3), (err) => {
+                                    fs.writeFile("../RunLib/Javarun.java", `package ${javaPackage};\n` + run.content.substring(7, run.content.length - 3), (err) => {
                                         exec("cd ../RunLib && javac Javarun.java", (err, stdout, stderr) => {
                                             yaz(`${stdout} ${stderr}\nCompilation ended`)
                                             exec("cd ../RunLib && java Javarun", (err, stdout, stderr) => {
