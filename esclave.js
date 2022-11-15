@@ -8,19 +8,30 @@ const ytdl = require("ytdl-core")
 const ytSearch = require("yt-search")
 
 const rip = ["ölmüş", "vefat etmiş"] 
-const queue = new Map()
 const javaPackage = "Bots.RunLib"
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}`)
     client.user.setPresence({
-    status: 'idle',
-    activity: {
-        name: 'Être un bon esclave pour son propriétaire',
-        type: 'PLAYING',
-    }
+        status: 'idle',
+        activity: {
+            name: 'Être un bon esclave pour son propriétaire',
+            type: 'PLAYING',
+        }
+    })
 })
+
+client.on("reconnecting", () => {
+    console.log("Reconnected...")
+    client.user.setPresence({
+        status: 'idle',
+        activity: {
+            name: 'Être un bon esclave pour son propriétaire',
+            type: 'PLAYING',
+        }
+    })
 })
+
 client.on("message", msg => {
     if (msg.author.bot){
         return
@@ -246,7 +257,8 @@ client.on("message", msg => {
                 .setThumbnail("https://cdn.discordapp.com/avatars/842055167074762784/8e8d23400e01c56adebbeb7f915953f1.png?size=128")
                 return msg.channel.send(aide)
             
-            // TODO music
+            // TODO music 
+            /// actually we'll just revamp the bot to use more modern techniques such as async-await instead of cases
 
             default:
                 break
